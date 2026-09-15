@@ -421,18 +421,24 @@ export default function Index() {
                 <div className="mb-4">
                   <h3 className="font-bold mb-2">الكتب المباعة</h3>
                   <div className="space-y-2 max-h-64 overflow-y-auto">
-                    {saleItems.map((item) => (
-                      <div key={item.id} className="flex justify-between items-center bg-muted p-2 rounded">
-                        <div>
-                          <p className="font-semibold">{item.title}</p>
-                          <p className="text-sm text-muted-foreground">{item.barcode}</p>
+                    {saleItems.map((item) => {
+                      const book = books.find((b) => b.id === item.book_id)
+                      return (
+                        <div key={item.id} className="flex gap-3 bg-muted p-2 rounded">
+                          {book?.image_url && (
+                            <img src={book.image_url} alt={item.title} className="w-12 h-16 object-cover rounded" />
+                          )}
+                          <div className="flex-1">
+                            <p className="font-semibold">{item.title}</p>
+                            <p className="text-sm text-muted-foreground">{item.barcode}</p>
+                            <p className="font-semibold">{item.quantity} × {item.unit_price}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm">{item.total_price.toFixed(2)} ريال</p>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-semibold">{item.quantity} × {item.unit_price}</p>
-                          <p className="text-sm">{item.total_price.toFixed(2)} ريال</p>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-border">
